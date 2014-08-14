@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMapConfig      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<settings useStatementNamespaces="true"	/>
+	<transactionManager type="JDBC" commitRequired="false">
+		<dataSource type="SIMPLE">
+			<property name="JDBC.Driver"
+				value="com.mysql.jdbc.Driver" />
+			<property name="JDBC.ConnectionURL"
+				value="jdbc:mysql://localhost:3306/test?zeroDateTimeBehavior=convertToNull" />
+			<property name="JDBC.Username" value="nice19" />
+			<property name="JDBC.Password" value="ses123" />
+		</dataSource>
+	</transactionManager>
+	
+	<sqlMap resource="ibatis/member.xml" />
+	<sqlMap resource="ibatis/Cevent.xml" /> 
+	<sqlMap resource="ibatis/login.xml" />
+	<sqlMap resource="ibatis/Chealthz.xml" />
+	<sqlMap resource="ibatis/Cidea.xml" />	
+	<sqlMap resource="ibatis/Gym.xml" />
+	<sqlMap resource="ibatis/GymFee.xml" />
+	<sqlMap resource="ibatis/Trainer.xml" />
+	<sqlMap resource="ibatis/CFree.xml"/>
+	<sqlMap resource="ibatis/QnA.xml"/>
+	<sqlMap resource="ibatis/Search.xml"/>
+
+</sqlMapConfig>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="chealthz">
+   <typeAlias alias="CEventModel" type="model.CeventModel"/>
+   <typeAlias alias="CEventCommentModel" type="model.CeventCommentModel"/>    
+ <select id="getBoardList" parameterClass="java.util.HashMap" resultClass="CEventModel">
+    select idx,writerId, subject,content, time,hitcount,recommendcount
+                    from c_healthz
+        order by idx asc
+        Limit #startArticleNum#, #endArticleNum#  
+   </select>
+
+   <select id="getTotalNum" resultClass="int">
+      select 
+         count(idx)
+      from c_healthz
+   </select>
+   <select id="getSearchTotalNum" resultClass="int">
+      select 
+         count(idx)
+      from c_healthz
+      where $type$ like '%$keyword$%'
+   </select>
+   <select id="searchArticle" parameterClass="java.util.HashMap" resultClass="CEventModel">
+   select idx,writerId, subject,content, time,hitcount,recommendcount
+                    from c_healthz
+    	where $type$ like '%$keyword$%'
+        order by idx asc
+        Limit #startArticleNum#, #endArticleNum#
+   </select> 
+   <select id="getOneArticle" parameterClass="int" resultClass="CEventModel">
+      select
+         idx,                   
+       writerId,                
+         subject,               
+         content,               
+         img,                 
+         fileupload,          
+         time,                 
+         hitcount,        
+         recommendcount        
+      from c_healthz
+       where idx = #idx#
+   </select>
+   <select id="getCommentList" parameterClass="int" resultClass="CEventCommentModel">
+      select 
+         idx,                   
+       writerId,                 
+         time,                  
+         content,               
+         linkedArticleNum      
+      from C_H_COMMENT
+        where linkedArticleNum = #idx#
+        order by idx desc
+   </select>
+   <select id="getOneComment" parameterClass="int" resultClass="CEventCommentModel">
+      select 
+         idx,                   
+         WriterId,                 
+         time,                  
+         content,               
+         linkedArticleNum      
+      from C_H_COMMENT
+        where idx = #idx#      
+   </select>
+   <insert id="writeArticle" parameterClass="CEventModel">
+      insert into c_healthz(idx, writerId, subject, content, img,fileupload,time,hitcount, recommendcount)
+         values(idx, #writerId#, #subject#, #content#, '', '', date_format(now(), '%Y-%m-%d %H:%i:%s'),0,0)
+   </insert>
+   <insert id="writeComment" parameterClass="CEventCommentModel">
+      insert into C_H_COMMENT(idx,writerId,time,content,linkedArticleNum)
+         values(idx, #writerId#,date_format(now(), '%Y-%m-%d %H:%i:%s'),#content#, #linkedArticleNum#)
+   </insert>
+   
+   <update id="updateHitcount" parameterClass="java.util.HashMap">
+      update 
+         c_healthz
+      set hitcount = #hitcount#
+      where idx = #idx#
+   </update>
+   <update id="updateRecommendcount" parameterClass="java.util.HashMap">
+      update
+         c_healthz
+      set recommendcount = #recommendcount#
+      where idx = #idx#
+   </update>
+   <delete id="deleteComment" parameterClass="int">
+      delete
+      from C_H_COMMENT
+      where idx = #idx#
+   </delete>
+   <delete id="deleteArticle" parameterClass="int">
+      delete
+      from c_healthz
+      where idx = #idx#   
+   </delete> 
+   <update id="modifyArticle" parameterClass="CEventModel">
+      update c_healthz
+      set subject = #subject#,
+         content = #content#
+      where idx = #idx#
+   </update> 
+</sqlMap>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="member">
+	<typeAlias alias="MemberModel" type="model.MemberModel"/>
+	
+	<select id="selectOneMember" parameterClass="int" resultClass="MemberModel">
+		select m_seq,id,pw,email 
+		from Member
+		where idx = #idx#
+	</select>
+	
+	<select id="selectAllMember" resultClass="MemberModel">
+		select m_seq,id,pw,email 
+		from Member
+	</select>
+	
+	<select id="findByUserId" parameterClass="String" resultClass="MemberModel">
+		select m_seq,id,pw,email 
+		from Member
+		where id = #id#
+	</select>
+	<select id="findByUserEmail" parameterClass="String" resultClass="MemberModel">
+		select m_seq,id,pw,email 
+		from Member
+		where email = #email#
+	</select>
+	
+	<insert id="addMember" parameterClass="MemberModel">
+		insert into Member(m_seq,id,pw,email)
+		values(m_seq, #id#, #pw#,#email#)
+	</insert>		
+	
+		<update id="changePw" parameterClass="MemberModel">
+	    update Member 
+	    set pw = #pw# 
+	    where id = #id#
+	</update>
+</sqlMap>
+
+
+
+
+
+
+

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="qna">
+      <typeAlias alias="QnAModel" type="model.QnAModel"/>
+   <typeAlias alias="QnACommentModel" type="model.QnACommentModel"/>   
+    <select id="getBoardList" parameterClass="java.util.HashMap" resultClass="QnAModel">
+   select b.idx,b.gym_seq,b.writerId,
+         b.subject,b.content,
+         date_format(b.time, '%Y-%m-%d %H:%i:%s')time,b.hitcount,b.recommendcount,
+          count(b.idx) AS "comment",b.rnum
+     from (select a.idx,a.gym_seq,a.writerId,
+                  a.subject,a.content,
+                  a.time,a.hitcount,a.recommendcount,@idx:=idx+1 AS rnum
+             from (select idx,gym_seq,writerId,
+                        subject,content,
+                      time,hitcount,recommendcount
+                    from B_QNA
+                    where gym_seq='$gseq$'
+                    order by idx desc)a
+         )b left outer join B_Q_COMMENT c on b.idx = c.linkedarticlenum
+    where rnum between #startArticleNum# and #endArticleNum#
+    group by b.idx,b.gym_seq,b.writerId,
+         b.subject,b.content,b.time,b.hitcount,b.recommendcount,b.rnum
+     order by b.idx desc   
+     
+   </select> 
+   
+    <select id="getTotalNum" resultClass="int">
+      select 
+         count(idx)
+      from B_QNA
+   </select>
+   
+      <select id="getOneArticle" parameterClass="int" resultClass="QnAModel">
+      select
+         idx,  
+         gym_seq,                 
+         writerId,                 
+         subject,               
+         content,               
+         img,                 
+         fileupload,          
+         time,                 
+         hitcount,        
+         recommendcount        
+      from B_QNA
+       where idx = #idx#
+   </select>
+   
+    <update id="updateHitcount" parameterClass="java.util.HashMap">
+      update 
+         B_QNA
+      set hitcount = #hitcount#
+      where idx = #idx#
+   </update>
+   <update id="updateRecommendcount" parameterClass="java.util.HashMap">
+      update
+         B_QNA
+      set recommendcount = #recommendcount#
+      where idx = #idx#
+   </update>
+   
+   <select id="getCommentList" parameterClass="int" resultClass="QnACommentModel">
+      select 
+         idx,
+         gym_seq,                   
+         writerId,                 
+         time,                  
+         content,               
+         linkedArticleNum      
+      from B_Q_COMMENT
+        where linkedArticleNum = #idx#
+        order by idx desc
+   </select>
+   
+    
+   <select id="getOneComment" parameterClass="int" resultClass="QnACommentModel">
+      select 
+         idx,
+         gym_seq,                   
+         writerId,                 
+         time,                  
+         content,               
+         linkedArticleNum      
+      from B_Q_COMMENT
+        where idx = #idx#
+   </select> 
+     
+    <select id="getSearchTotalNum" resultClass="int">
+      select 
+         count(idx)
+      from B_QNA
+      where $type$ like '%$keyword$%'
+   </select>
+   
+   <select id="searchArticle" parameterClass="java.util.HashMap" resultClass="QnAModel">
+   select b.idx,b.gym_seq,b.WriterId,
+         b.subject,b.content,
+          date_format(b.time, '%Y-%m-%d %H:%i:%s')time,b.hitcount,b.recommendcount,
+          count(b.idx) AS "comment",b.rnum
+     from (select a.idx,a.gym_seq,a.WriterId,
+                  a.subject,a.content,
+                  a.time,a.hitcount,a.recommendcount,@idx:=idx+1 AS rnum
+             from (select idx,gym_seq,WriterId,
+                        subject,content,
+                      time,hitcount,recommendcount
+                    from B_QNA
+                    order by idx desc)a
+         )b left outer join B_Q_COMMENT c on b.idx = c.linkedarticlenum
+    where $type$ like '%$keyword$%'
+    group by b.idx,b.gym_seq,b.WriterId,
+         b.subject,b.content,b.time,b.hitcount,b.recommendcount,b.rnum
+     order by b.idx desc   
+   </select>
+   
+   <delete id="deleteComment" parameterClass="int">
+      delete
+      from B_Q_COMMENT
+      where idx = #idx#
+   </delete>
+   
+   <delete id="deleteArticle" parameterClass="int">
+      delete
+      from B_QNA
+      where idx = #idx#   
+   </delete>
+     
+    
+   <insert id="writeArticle" parameterClass="QnAModel">
+      insert into B_QNA(idx,gym_seq,writerId, subject, content, img,fileupload,time,hitcount, recommendcount)
+         values(idx,#gseq#, #writerId#, #subject#, #content#, '', '', date_format(now(), '%Y-%m-%d %H:%i:%s'),0,0)
+   </insert>    
+ 
+   <insert id="writeComment" parameterClass="QnACommentModel">
+      insert into B_Q_COMMENT(idx,gym_seq,writerId,time,content,linkedArticleNum)
+         values(idx,#gseq#, #writerId#,date_format(now(), '%Y-%m-%d %H:%i:%s'),#content#, #linkedArticleNum#)
+   </insert>  
+
+   <update id="modifyArticle" parameterClass="QnAModel">
+   update B_QNA
+      set subject = #subject#,
+          content = #content#
+    where idx = #idx#
+   </update> 
+
+</sqlMap>
+
+
+
+
+
+

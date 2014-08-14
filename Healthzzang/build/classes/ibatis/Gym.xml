@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="gym">
+	<typeAlias alias="GymModel" type="model.GymModel"/>
+		
+	<select id="getOneGymName" resultClass="GymModel">
+		select Gidx, Name, City, Town, RegDate, Phone, Img, Scale,Intro
+		from GYM 
+		where Gidx = '$gseq$'
+	</select>
+	
+	
+	
+</sqlMap>

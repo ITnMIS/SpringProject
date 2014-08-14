@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="login">
+	<typeAlias alias="LoginModel" type="model.LoginSessionModel"/>
+	<select id="loginCheck" parameterClass="String" resultClass="LoginModel">
+		select m_seq,id,pw,email 
+		  from member
+		 where id=#id#			
+	</select>	
+</sqlMap>
+
+
+
+
+
+
+

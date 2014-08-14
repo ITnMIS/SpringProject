@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    
+    <!-- iBatis -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    	<property name="locations" value="classpath:config/dbconn.properties" />
+    </bean>
+     
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" >
+    	<property name="driverClassName" value="${jdbc.driver}"/>
+    	<property name="url" value="${jdbc.url}" /> 
+    	<property name="username" value="${jdbc.username}" />
+    	<property name="password" value="${jdbc.password}" />
+    </bean>
+    
+   	<bean id="sqlMapClient"
+   		class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+   		<property name="dataSource" ref="dataSource" />
+   		<property name="configLocation" value="classpath:/config/sqlMapConfig.xml" />	
+   	</bean>
+   	
+   	<bean id="sqlMapClientTemplate"
+   		class="org.springframework.orm.ibatis.SqlMapClientTemplate">
+   		<property name="sqlMapClient" ref="sqlMapClient" />	
+   	</bean>
+   	
+   	
+   	<!-- service class -->
+   	<bean id="loginService" class="service.LoginService">
+   		<property name="sqlMapClientTemplate" ref="sqlMapClientTemplate" />
+   	</bean>
+   	
+   	<bean id="memberService" class="service.MemberService">
+   		<property name="sqlMapClientTemplate" ref="sqlMapClientTemplate" />
+   	</bean>
+   	
+    <bean id="ceventService" class="service.CeventService">
+   		<property name="sqlMapClientTemplate" ref="sqlMapClientTemplate" />
+   	</bean> 
+   	 <bean id="gymFeeService" class="service.GymFeeService">
+   		<property name="sqlMapClientTemplate" ref="sqlMapClientTemplate" /> 
+   	</bean>
+   	
+   	<bean id="gymService" class="service.GymService">
+   		<property name="sqlMapClientTemplate" ref="sqlMapClientTemplate" /> 
+   	</bean>
+   	
+   	<bean id="trainerService" class="service.TrainerService">
+   		<property name="sqlMapClientTemplate" ref="sqlMapClientTemplate" /> 
+   	</bean> 
+   	
+   		<bean id="chealthzService" class="service.ChealthzService">
+   		<property name="sqlMapClientTemplate" ref="sqlMapClientTemplate" /> 
+   	</bean>
+   	
+   		<bean id="cideaService" class="service.CideaService">
+   		<property name="sqlMapClientTemplate" ref="sqlMapClientTemplate" /> 
+   	</bean>  
+   	
+   	 		<bean id="cfreeService" class="service.CFreeService">
+   		<property name="sqlMapClientTemplate" ref="sqlMapClientTemplate" /> 
+   	</bean>  
+   	 <bean id="qnaService" class="service.QnAService">
+   		<property name="sqlMapClientTemplate" ref="sqlMapClientTemplate" /> 
+   	</bean>  
+   	
+ 	<bean id="searchService" class="service.SearchService">
+   		<property name="sqlMapClientTemplate" ref="sqlMapClientTemplate" /> 
+   	</bean>  
+   	
+   	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	<property name="host" value="smtp.cafe24.com" />
+	<property name="port" value="25" />
+	<property name="username" value="ajh1249@ajh1249.cafe24.com" />
+	<property name="password" value="wjdgus!23" />
+ 
+	<property name="javaMailProperties">
+	   <props>
+       	      <prop key="mail.smtp.auth">true</prop>
+       	      <prop key="mail.smtp.starttls.enable">true</prop>
+       	   </props>
+	</property>
+	</bean>
+ 
+	<bean id="mailMail" class="service.SendMailService">
+	<property name="mailSender" ref="mailSender" />
+	</bean>
+</beans>

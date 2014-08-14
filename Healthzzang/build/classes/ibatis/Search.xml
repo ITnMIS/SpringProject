@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap      
+    PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"      
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="search">
+   <typeAlias alias="CEventModel" type="model.CeventModel"/>
+   <typeAlias alias="GymModel" type="model.GymModel"/>
+
+   <select id="searchCevent" parameterClass="java.util.HashMap" resultClass="CEventModel">
+      select idx,writerId, subject,content, time,hitcount,recommendcount
+                    from c_event
+    	where subject like '%$search$%' or writerId like '%$search$%' or content like '%$search$%'
+        order by idx asc
+        Limit #startArticleNum#, #endArticleNum#
+   </select>
+   
+   <select id="searchCFree" parameterClass="java.util.HashMap" resultClass="CEventModel">
+      select idx,writerId, subject,content, time,hitcount,recommendcount
+                    from c_free
+    	where subject like '%$search$%' or writerId like '%$search$%' or content like '%$search$%'
+        order by idx asc
+        Limit #startArticleNum#, #endArticleNum#
+   </select>
+   
+   <select id="searchChealthz" parameterClass="java.util.HashMap" resultClass="CEventModel">
+      select idx,writerId, subject,content, time,hitcount,recommendcount
+                    from c_healthz
+    	where subject like '%$search$%' or writerId like '%$search$%' or content like '%$search$%'
+        order by idx asc
+        Limit #startArticleNum#, #endArticleNum#
+   </select>
+      
+   <select id="searchCidea" parameterClass="java.util.HashMap" resultClass="CEventModel">
+      select idx,writerId, subject,content, time,hitcount,recommendcount
+                    from c_idea
+    	where subject like '%$search$%' or writerId like '%$search$%' or content like '%$search$%'
+        order by idx asc
+        Limit #startArticleNum#, #endArticleNum#
+   </select>
+   
+   	<select id="searchGym" parameterClass="java.util.HashMap"  resultClass="GymModel">
+		select Gidx, Name, City, Town, RegDate, Phone, Img, Scale,Intro
+		from GYM 
+    	where Name like '%$search$%' or City like '%$search$%' or Town like '%$search$%' 
+    	order by Gidx desc
+    	Limit #startArticleNum#, #endArticleNum#	
+	</select>
+   
+   <select id="getCeventSearchTotalNum" resultClass="int">
+      select 
+         count(idx)
+      from c_event
+   	where subject like '%$search$%' or writerId like '%$search$%' or content like '%$search$%'
+   </select>
+    
+   <select id="getCFreeSearchTotalNum" resultClass="int">
+      select 
+         count(idx)
+      from c_free
+   	where subject like '%$search$%' or writerId like '%$search$%' or content like '%$search$%'
+   </select>
+   
+   <select id="getChealthzSearchTotalNum" resultClass="int">
+      select 
+         count(idx)
+      from c_healthz
+   	where subject like '%$search$%' or writerId like '%$search$%' or content like '%$search$%'
+   </select>
+   
+   <select id="getCideaSearchTotalNum" resultClass="int">
+      select 
+         count(idx)
+      from c_idea
+   	where subject like '%$search$%' or writerId like '%$search$%' or content like '%$search$%'
+   </select>
+   
+      <select id="getGymSearchTotalNum" resultClass="int">
+      select 
+         count(gidx)
+      from GYM
+   </select>
+   
+</sqlMap>
