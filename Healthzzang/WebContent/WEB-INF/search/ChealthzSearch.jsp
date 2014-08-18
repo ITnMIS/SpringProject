@@ -27,7 +27,7 @@
 		<tr>
  	 		<td class="idx">${searchChealthz.idx}</td>
 			<td align="left" class="subject">
-				<a href="<%=request.getContextPath()%>/cevent/view.do?idx=${searchChealthz.idx}">${searchChealthz.subject}</a></td>
+				<a href="<%=request.getContextPath()%>/chealthz/view.do?idx=${searchChealthz.idx}">${searchChealthz.subject}</a></td>
 			<td class="writerId">${searchChealthz.writerId}</td>
 			<td class="hitcount">${searchChealthz.hitcount}</td>
 			<td class="recommendcount">${searchChealthz.recommendcount}</td>
