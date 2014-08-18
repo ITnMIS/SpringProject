@@ -1,7 +1,6 @@
 package interceptor;
 
 import javax.servlet.http.HttpServletRequest;
-import org.apache.coyote.*;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -13,7 +12,7 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 		// check variable
 		Object id = request.getSession().getAttribute("id");
 		//
-		if(request.getRequestURI().equals(request.getContextPath()+"/member/join.do")||				
+		if(		request.getRequestURI().equals(request.getContextPath()+"/member/Hchange.do")||
 				request.getRequestURI().equals(request.getContextPath()+"/logout.do")||
 				request.getRequestURI().equals(request.getContextPath()+"/Hbasic/Hbasic.do")||
 				request.getRequestURI().equals(request.getContextPath()+"/cevent/list.do")||
@@ -36,7 +35,8 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 		}
 	
 		// pass through when access login.do, join.do
-	if(request.getRequestURI().equals(request.getContextPath()+"/login.do") 	)
+		if(request.getRequestURI().equals(request.getContextPath()+"/login.do") ||
+			request.getRequestURI().equals(request.getContextPath()+"/member/join.do"))
 				{
 			if(id != null){
 				response.sendRedirect(request.getContextPath() + "/home.do");
@@ -47,14 +47,14 @@ public class SessionInterceptor extends HandlerInterceptorAdapter{
 		}
 		//
 		// where other pages
-	
-	if(id == null){
+
+		if(id == null){
 		response.sendRedirect(request.getContextPath() + "/loginCheck.jsp");
 		return false;
-	} else {
-		return true;
-		}
-	}	
+			} else {
+			return true;
+			}
+		}	
 	
 
 
