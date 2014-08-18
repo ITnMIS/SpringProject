@@ -27,7 +27,7 @@
 		<tr>
  	 		<td class="idx">${searchCidea.idx}</td>
 			<td align="left" class="subject">
-				<a href="<%=request.getContextPath()%>/cevent/view.do?idx=${searchCidea.idx}">${searchCidea.subject}</a></td>
+				<a href="<%=request.getContextPath()%>/cidea/view.do?idx=${searchCidea.idx}">${searchCidea.subject}</a></td>
 			<td class="writerId">${searchCidea.writerId}</td>
 			<td class="hitcount">${searchCidea.hitcount}</td>
 			<td class="recommendcount">${searchCidea.recommendcount}</td>
