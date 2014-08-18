@@ -72,7 +72,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button> 
-                <a class="navbar-brand" href="home.do">
+                <a class="navbar-brand" href="<%=request.getContextPath()%>/home.do">
                     <img src="<%=request.getContextPath()%>/img/11.png"></img>
                 </a>
                 
@@ -161,15 +161,7 @@
                     </div><!-- morph-button -->
             </div>
             </c:when>
-<%--             <c:otherwise>
-            <h4> dfdf</h4>
-            	<div class="mockup-content">
-            		<div class="morph-button morph-button-modal morph-button-modal-2 morph-button-fixed">
-            			 <button type="button" value="로그아웃"></button>
-            		</div>
-            	</div>
-            </c:otherwise> --%>
-            </c:choose>
+           </c:choose>
             <!-- login & register -->
             <!-- /.navbar-collapse -->
         </div>
