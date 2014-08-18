@@ -24,4 +24,11 @@ Tomcat 설정
     <Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443" useBodyEncodingForURI="true"/>
 
 useBodyEncodingForURI="true"<-- 추가
-  
+
+기타 
+================
+구현형상 -
+http://www.youtube.com/watch?v=uSMaM_8gNH0&feature=youtube_gdata_player
+
+호스팅 및 오류 잡기 -  
+http://www.slideshare.net/ssusereb82fb/springmvc-37985802
