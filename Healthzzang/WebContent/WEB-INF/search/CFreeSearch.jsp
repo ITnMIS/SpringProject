@@ -27,7 +27,7 @@
 		<tr>
  	 		<td class="idx">${searchCFreeList.idx}</td>
 			<td align="left" class="subject">
-				<a href="<%=request.getContextPath()%>/cevent/view.do?idx=${searchCFreeList.idx}">${searchCFreeList.subject}</a></td>
+				<a href="<%=request.getContextPath()%>/cfree/view.do?idx=${searchCFreeList.idx}">${searchCFreeList.subject}</a></td>
 			<td class="writerId">${searchCFreeList.writerId}</td>
 			<td class="hitcount">${searchCFreeList.hitcount}</td>
 			<td class="recommendcount">${searchCFreeList.recommendcount}</td>
